@@ -13,7 +13,7 @@ emale = st.checkbox(label = "Eliminate Male Voices")
 efem = st.checkbox(label = "Eliminate Female Voices")
 def presets():
     if emale:
-        elimMale()
+        fb.elimMale()
     if efem:
-        elimFemale()
+        fb.elimFemale()
     
