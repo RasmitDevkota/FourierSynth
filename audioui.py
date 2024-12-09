@@ -7,7 +7,7 @@ st.write("---")
 
 audioVal = st.audio_input("Record")
 if audioVal:
-    st.audio(audioVal)
+    meow = st.audio(audioVal)
 
 emale = st.checkbox(label = "Eliminate Male Voices")
 efem = st.checkbox(label = "Eliminate Female Voices")
