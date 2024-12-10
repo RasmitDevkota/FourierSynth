@@ -122,3 +122,6 @@ def plot(t, signal, filtered_signal, freqs, filtered_fft, original_fft):
     plt.tight_layout()
     plt.show()
 
+def fourier():
+    return NotImplemented
+
