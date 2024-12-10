@@ -159,32 +159,32 @@ def fourier(audio_obj=None, presets=None, outcon=None):
 
     input_fig, _ = plt.subplots()
     plt.plot(t, audio)
-    # outcon.pyplot(input_fig)
+    outcon.pyplot(input_fig)
 
     # Get list of active presets
     all_presets = list(presets.keys())
-    # outcon.write("presets:", presets)
+    outcon.write("presets:", presets)
 
     active_presets = []
     for preset, switch in presets.items():
         if switch and preset not in active_presets:
             active_presets.append(preset)
-    # outcon.write("active_presets:", active_presets)
+    outcon.write("active_presets:", active_presets)
 
     # @TODO - figure out a way to "combine" multiple presets
 
     # Get sample rate
     audio_array, sample_rate = sf.read(io.BytesIO(audio_str))
-    # outcon.write(sample_rate)
+    outcon.write(sample_rate)
 
     # Run Fourier transform and equalizer
-    # filtered_audio, freqs, filtered_fft, original_fft = filter_frequency_range(audio,
-    #                                                                             preset_gain_plots[active_presets[0]],
-    #                                                                             sample_rate, bg_noise_ref=None)
-    #
-    # output_fig, _ = plot(t, audio, filtered_audio, freqs, filtered_fft, original_fft)
+    filtered_audio, freqs, filtered_fft, original_fft = filter_frequency_range(audio,
+                                                                                preset_gain_plots[active_presets[0]],
+                                                                                sample_rate, bg_noise_ref=None)
 
-    # outcon.pyplot(output_fig)
+    output_fig, _ = plot(t, audio, filtered_audio, freqs, filtered_fft, original_fft)
+
+    outcon.pyplot(output_fig)
 
     return
 
