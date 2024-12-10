@@ -30,6 +30,6 @@ else:
 # @TODO
 
 # process audio
-
-st.button("Process", type="primary", on_click=fourier, kwargs={"audio_obj": audio_val, "presets": preset_dict})
-
+outcon = None
+st.button("Process", type="primary", on_click=fourier, kwargs={"audio_obj": audio_val, "presets": preset_dict, "outcon": outcon})
+outcon = st.container(border=True)
