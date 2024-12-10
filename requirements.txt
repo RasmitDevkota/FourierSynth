@@ -1,2 +1,2 @@
 streamlit
-[-e] <https://github.com/RasmitDevkota/FourierSynth/main/pages/src/fourier_backend.>
+[-e] <https://github.com/RasmitDevkota/FourierSynth/main/pages/src/fourier_backend.py>
