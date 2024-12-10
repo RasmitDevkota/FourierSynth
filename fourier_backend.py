@@ -143,7 +143,7 @@ def plot(t, signal, filtered_signal, freqs, filtered_fft, original_fft):
 def fourier(audio_obj=None, presets=None, outcon=None):
     # Validate inputs
     if audio_obj == None or presets == None or outcon == None:
-        outcon.write("Error occurred!")
+        st.write("Error occurred!")
         return
 
     # Process audio object input
