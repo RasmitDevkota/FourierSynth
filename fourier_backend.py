@@ -44,9 +44,9 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     - bg_noise_ref: (optional) numpy array of Fourier components from a background noise reference scan.
 
     Returns:
-    - filtered_signal: Time-domain signal with only the desired frequency range.
+    - processed_signal: Time-domain signal with only the desired frequency range.
     - freqs: Frequencies present in the transformed signal.
-    - filtered_fft: Fourier components after gains are applied
+    - processed_fft: Fourier components after gains are applied
     - original_fft: Magnitude of the FFT before filtering.
     """
 
@@ -56,12 +56,12 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     freqs = fftfreq(n, d=1/sample_rate)
 
     # Copy the FFT values to filter frequencies
-    filtered_fft = np.copy(fft_values)
-    # print(filtered_fft)
+    processed_fft = np.copy(fft_values)
+    # print(processed_fft)
 
     # Subtract the Fourier components from the background noise reference
     if bg_noise_ref is not None:
-        filtered_fft -= bg_noise_ref
+        processed_fft -= bg_noise_ref
 
     # Multiply the FFT values by the gain plot
     for f, freq in enumerate(freqs):
@@ -69,35 +69,35 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
             min_freq = int(freq_range.split("-")[0])
             max_freq = int(freq_range.split("-")[1])
             if freq >= min_freq and freq <= max_freq:
-                filtered_fft[f] *= gain
+                processed_fft[f] *= gain
                 break
             else:
                 pass
                 # center_freq = (min_freq + max_freq)/2
                 # quotient = freq/center_freq
                 # if abs(int(quotient) - quotient)/quotient <= 0.25:
-                #     filtered_fft[f] *= gain
+                #     processed_fft[f] *= gain
                 # break
 
     # Delete noisy artifacts of the discrete FFT
-    for f, component in enumerate(filtered_fft):
+    for f, component in enumerate(processed_fft):
         if abs(component) <= 1E-11:
-            filtered_fft[f] = 0
+            processed_fft[f] = 0
 
-    # filtered_fft[1] = 200
-    # print(filtered_fft[115:135])
+    # processed_fft[1] = 200
+    # print(processed_fft[115:135])
 
     # Calculate magnitude of FFT for visualization (before filtering)
     original_fft = np.abs(fft_values)
 
-    # Perform inverse FFT to get back the filtered time-domain signal
-    filtered_signal = np.real(ifft(filtered_fft))
+    # Perform inverse FFT to get back the processed time-domain signal
+    processed_signal = np.abs(np.real(ifft(processed_fft)))
 
-    # print(filtered_signal)
+    # print(processed_signal)
 
-    return filtered_signal, freqs, filtered_fft, original_fft
+    return processed_signal, freqs, processed_fft, original_fft
 
-def plot(t, signal, sample_rate, filtered_signal, freqs, filtered_fft, original_fft):
+def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, original_fft):
     # Plot the results
     fig, ax = plt.subplots(figsize=(12, 24))
 
@@ -120,19 +120,19 @@ def plot(t, signal, sample_rate, filtered_signal, freqs, filtered_fft, original_
 
     # Plot FFT magnitude after filtering
     plt.subplot(4, 1, 3)
-    plt.plot(freqs, filtered_fft, label='FFT of Filtered Signal')
+    plt.plot(freqs, processed_fft, label='FFT of Processed Signal')
     plt.xlim(0, sample_rate / 2)  # Limit to positive frequencies
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Magnitude')
-    plt.title('FFT of Filtered Signal')
+    plt.title('FFT of Processed Signal')
     plt.legend()
 
-    # Plot filtered signal
+    # Plot processed signal
     plt.subplot(4, 1, 4)
-    plt.plot(t, filtered_signal, label='Filtered Signal (0-20,000 Hz)', color='orange')
+    plt.plot(t, processed_signal, label='Processed Signal', color='orange')
     plt.xlabel('Time [s]')
     plt.ylabel('Amplitude')
-    plt.title('Filtered Signal in Time Domain')
+    plt.title('Processed Signal in Time Domain')
     plt.legend()
 
     # plt.tight_layout()
@@ -180,20 +180,20 @@ def fourier(audio_obj=None, presets=None, outcon=None):
     # outcon.write(sample_rate)
 
     # Run Fourier transform and equalizer
-    filtered_audio, freqs, filtered_fft, original_fft = filter_frequency_range(audio,
+    processed_audio, freqs, processed_fft, original_fft = filter_frequency_range(audio,
                                                                                 preset_gain_plots[active_presets[0]],
                                                                                 sample_rate, bg_noise_ref=None)
 
-    output_fig, _ = plot(t, audio, sample_rate, filtered_audio, freqs, filtered_fft, original_fft)
+    output_fig, _ = plot(t, audio, sample_rate, processed_audio, freqs, processed_fft, original_fft)
 
     outcon.pyplot(output_fig)
 
     # Add output audio playback
-    # output_audio_str = filtered_audio.tobytes()
+    # output_audio_str = processed_audio.tobytes()
     # outcon.print(output_audio_str)
     # outcon.audio(output_audio_str, format="audio/wav")
 
-    outcon.audio(filtered_audio, sample_rate=sample_rate)
+    outcon.audio(processed_audio, sample_rate=sample_rate)
 
     return
 
