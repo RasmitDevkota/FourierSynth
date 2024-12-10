@@ -6,6 +6,7 @@ st.header("Presets for Our Fourier Synth")
 
 incon = st.container(border=True)
 outcon = st.container(border=True)
+outcon.write("Record and process audio to obtain output")
 
 # record audio
 audio_val = incon.audio_input("Record")
