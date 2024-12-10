@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numpy.fft import fft, ifft, fftfreq
 
+import streamlit as st
+
 # Filters
 # - Average noise
 # - Specific frequencies
@@ -127,7 +129,8 @@ def fourier(audio_obj=None):
         return
 
     audio = np.array(audio_obj)
-    st.write(np.shape(audio))
+
+    st.write("hello world")
 
     return
 
