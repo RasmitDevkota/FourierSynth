@@ -11,7 +11,7 @@ if audio_val:
     st.audio(audio_val)
 
 # presets
-
+emale = st.checkbox("Eliminate Male Voices")
 # @TODO
 
 # process audio
