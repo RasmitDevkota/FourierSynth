@@ -130,7 +130,6 @@ def fourier(audio_obj=None):
 
     audio = np.array(audio_obj)
 
-    st.write("hello world")
 
     return
 
