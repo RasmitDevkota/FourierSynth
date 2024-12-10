@@ -11,10 +11,13 @@ if audio_val:
     st.audio(audio_val)
 
 # presets
+preset_list = []
 emale = st.checkbox("Eliminate Male Voices")
+if emale:
+    preset_list.append()
 # @TODO
 
 # process audio
 
-st.button("Process", type="primary", on_click=fourier, kwargs={"audio_obj": audio_val})
+st.button("Process", type="primary", on_click=fourier, kwargs={"audio_obj": audio_val, "presets": preset_list})
 
