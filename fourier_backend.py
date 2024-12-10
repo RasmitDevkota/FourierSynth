@@ -122,6 +122,9 @@ def plot(t, signal, filtered_signal, freqs, filtered_fft, original_fft):
     plt.tight_layout()
     plt.show()
 
-def fourier():
-    return NotImplemented
+def fourier(audio_obj):
+    audio = np.array(audio_obj)
+    st.write(np.shape(audio))
+
+    return
 
