@@ -34,18 +34,18 @@ else:
 
 # process audio
 # method 1: function wrapper
-def fourier_wrapper(**kwargs):
-    try:
-        fourier(kwargs)
-    except Exception as e:
-        outcon.write("Error occurred, please refresh the page and try again!")
-        # outcon.write(e)
-
-incon.button("Process", type="primary", on_click=fourier_wrapper, kwargs={"audio_obj": audio_val, "presets": preset_dict, "outcon": outcon})
+# def fourier_wrapper(**kwargs):
+#     try:
+#         fourier(kwargs)
+#     except Exception as e:
+#         outcon.write("Error occurred, please refresh the page and try again!")
+#         # outcon.write(e)
+#
+# incon.button("Process", type="primary", on_click=fourier_wrapper, kwargs={"audio_obj": audio_val, "presets": preset_dict, "outcon": outcon})
 
 # method 2: flat
-# try:
-#     incon.button("Process", type="primary", on_click=fourier, kwargs={"audio_obj": audio_val, "presets": preset_dict, "outcon": outcon})
-# except Exception as e:
-#     outcon.write(str(e))
+try:
+    incon.button("Process", type="primary", on_click=fourier, kwargs={"audio_obj": audio_val, "presets": preset_dict, "outcon": outcon})
+except Exception as e:
+    outcon.write(str(e))
 
