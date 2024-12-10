@@ -1,7 +1,5 @@
 import streamlit as st
 
-from fourier_backend import fourier
-
 st.header("Presets for Our Fourier Synth")
 audio_val = st.audio_input("Record")
 if audio_val:
