@@ -128,8 +128,11 @@ def fourier(audio_obj=None, presets=None):
     if audio_obj == None or presets == None:
         return
 
+    st.write(type(audio_obj))
+
     audio = np.load(audio_obj)
     st.write(np.shape(audio))
+
     audio_length = np.size(audio)
     t = np.array(list(range(audio_length)))
 
