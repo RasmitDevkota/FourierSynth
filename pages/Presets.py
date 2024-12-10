@@ -37,6 +37,8 @@ else:
 # @TODO - complete rest of presets
 
 # process audio
+# @TODO - decide a method for this
+
 # method 1: function wrapper
 # def fourier_wrapper(**kwargs):
 #     try:
