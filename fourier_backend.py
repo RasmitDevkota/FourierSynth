@@ -190,8 +190,11 @@ def fourier(audio_obj=None, presets=None, outcon=None):
     outcon.pyplot(output_fig)
 
     # Add output audio playback
-    output_audio_obj = filtered_audio.tobytes()
-    outcon.audio(output_audio_obj, format="audio/wav")
+    # output_audio_str = filtered_audio.tobytes()
+    # outcon.print(output_audio_str)
+    # outcon.audio(output_audio_str, format="audio/wav")
+
+    outcon.audio(filtered_audio, sample_rate=sample_rate)
 
     return
 
