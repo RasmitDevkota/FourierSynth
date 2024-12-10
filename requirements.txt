@@ -1,2 +1,2 @@
 streamlit
-src.fourier_backend
+fourier_backend
