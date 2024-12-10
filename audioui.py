@@ -9,11 +9,11 @@ audio_val = st.audio_input("Record")
 if audio_val:
     meow = st.audio(audioVal)
 
-emale = st.checkbox(label = "Eliminate Male Voices")
-efem = st.checkbox(label = "Eliminate Female Voices")
-def presets():
-    if emale:
-        fb.elim_male()
-    if efem:
-        fb.elim_fem()
+# emale = st.checkbox(label = "Eliminate Male Voices")
+# efem = st.checkbox(label = "Eliminate Female Voices")
+# def presets():
+#     if emale:
+#         fb.elim_male()
+#     if efem:
+#         fb.elim_fem()
     
