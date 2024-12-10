@@ -99,8 +99,7 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
 
 def plot(t, signal, sample_rate, filtered_signal, freqs, filtered_fft, original_fft):
     # Plot the results
-    # plt.figure(figsize=(12, 8))
-    fig, ax = plt.subplots(figsize=(24, 8))
+    fig, ax = plt.subplots(figsize=(12, 24))
 
     # Plot original signal
     plt.subplot(4, 1, 1)
