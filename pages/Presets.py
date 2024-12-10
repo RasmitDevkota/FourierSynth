@@ -8,5 +8,5 @@ audio_val = st.audio_input("Record")
 if audio_val:
     st.audio(audio_val)
 
-st.button("Process", type="primary", on_click=fourier, args=(audio_val))
+st.button("Process", type="primary", on_click=fourier, kwargs={"audio_obj": audio_val})
 
