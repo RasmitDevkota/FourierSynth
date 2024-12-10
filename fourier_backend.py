@@ -99,48 +99,22 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
 
     return processed_signal, freqs, processed_fft, original_fft
 
-def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, original_fft):
-    # Plot the results
-    fig, ax = plt.subplots(figsize=(12, 24))
-
+def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, original_fft, outcon):
     # Plot original signal
-    plt.subplot(4, 1, 1)
-    plt.plot(t, signal, label='Original Signal')
-    plt.xlabel('Time [s]')
-    plt.ylabel('Amplitude')
-    plt.title('Original Signal')
-    plt.legend()
+    outcon.write("Original signal")
+    outcon.line_chart(x=t, y=signal, x_label="Time[s]", y_label="Amplitude")
 
-    # Plot FFT magnitude before filtering
-    plt.subplot(4, 1, 2)
-    plt.plot(freqs, original_fft, label='FFT of Original Signal')
-    # plt.xlim(0, sample_rate / 2)  # Limit to positive frequencies
-    plt.xlim(0, min(10000, sample_rate / 2))  # Limit to positive frequencies
-    plt.xlabel('Frequency [Hz]')
-    plt.ylabel('Magnitude')
-    plt.title('FFT of Original Signal')
-    plt.legend()
+    # Plot FFT magnitude before processing
+    outcon.write('FFT of Original Signal')
+    outcon.line_chart(x=freqs, y=original_fft, x_label='Frequency [Hz]', y_label='Magnitude')
 
-    # Plot FFT magnitude after filtering
-    plt.subplot(4, 1, 3)
-    plt.plot(freqs, processed_fft, label='FFT of Processed Signal')
-    plt.xlim(0, min(10000, sample_rate / 2))  # Limit to positive frequencies
-    plt.xlabel('Frequency [Hz]')
-    plt.ylabel('Magnitude')
-    plt.title('FFT of Processed Signal')
-    plt.legend()
+    # Plot FFT magnitude after processing
+    outcon.write('FFT of Processed Signal')
+    outcon.line_chart(x=freqs, y=processed_fft, x_label='Frequency [Hz]', y_label='Magnitude')
 
     # Plot processed signal
-    plt.subplot(4, 1, 4)
-    plt.plot(t, processed_signal, label='Processed Signal', color='orange')
-    plt.xlabel('Time [s]')
-    plt.ylabel('Amplitude')
-    plt.title('Processed Signal in Time Domain')
-    plt.legend()
-
-    # plt.tight_layout()
-
-    return fig, ax
+    outcon.write('Processed Signal', color='orange')
+    outcon.line_chart(x=t, y=processed_signal, x_label='Amplitude', y_label='Processed Signal in Time Domain')
 
 def fourier(audio_obj=None, presets=None, outcon=None):
     # Validate inputs
@@ -187,7 +161,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
                                                                                 preset_gain_plots[active_presets[0]],
                                                                                 sample_rate, bg_noise_ref=None)
 
-    output_fig, _ = plot(t, audio, sample_rate, processed_audio, freqs, processed_fft, original_fft)
+    output_fig, _ = plot(t, audio, sample_rate, processed_audio, freqs, processed_fft, original_fft, outcon)
 
     outcon.pyplot(output_fig)
 
