@@ -143,7 +143,7 @@ def fourier(audio_obj=None, presets=None):
         return
 
     audio_str = audio_obj.read()
-    # st.write(audio_str)
+    st.write(audio_str)
 
     audio = np.fromstring(audio_str, np.int16)
     # st.write(np.shape(audio))
