@@ -4,6 +4,8 @@ from numpy.fft import fft, ifft, fftfreq
 
 import streamlit as st
 
+import wave
+
 # Filters
 # - Average noise
 # - Specific frequencies
@@ -17,8 +19,17 @@ import streamlit as st
 # - Noise calibration (record background audio)
 
 equal_gain_plot = np.array((int(20E3), 1))/20E3 # 0 Hz - 20 KHz
-male_gain_plot = {
-    "85-155": 0
+
+preset_gain_plots = {
+    "emale": {
+        "85-155": 0
+    },
+    "efemale": {
+        "85-155": 0
+    },
+    "ebird": {
+        "2000-3000": 0
+    }
 }
 
 def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
@@ -147,8 +158,20 @@ def fourier(audio_obj=None, presets=None):
 
     all_presets = list(presets.keys())
     st.write(presets)
-    active_presets = all_presets[list(presets.values())]
+
+    active_presets = []
+    for preset, switch in presets.items():
+        if switch and preset not in active_presets:
+            active_presets.append(preset)
     st.write(active_presets)
+
+    with wave.Wave_read(audio_obj) as wave_obj:
+        frame_rate = wave_file.getframerate()
+        st.write(frame_rate)
+
+    filtered_signal, freqs, filtered_fft, original_fft = filter_frequency_range(audio,
+                                                                                preset_gain_plots["ebird"],
+                                                                                frame_rate, bg_noise_ref=None)
 
     return
 
