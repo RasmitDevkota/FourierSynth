@@ -114,7 +114,8 @@ def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, origina
     # Plot FFT magnitude before filtering
     plt.subplot(4, 1, 2)
     plt.plot(freqs, original_fft, label='FFT of Original Signal')
-    plt.xlim(0, sample_rate / 2)  # Limit to positive frequencies
+    # plt.xlim(0, sample_rate / 2)  # Limit to positive frequencies
+    plt.xlim(0, min(10000, sample_rate / 2))  # Limit to positive frequencies
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Magnitude')
     plt.title('FFT of Original Signal')
@@ -123,7 +124,7 @@ def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, origina
     # Plot FFT magnitude after filtering
     plt.subplot(4, 1, 3)
     plt.plot(freqs, processed_fft, label='FFT of Processed Signal')
-    plt.xlim(0, sample_rate / 2)  # Limit to positive frequencies
+    plt.xlim(0, min(10000, sample_rate / 2))  # Limit to positive frequencies
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Magnitude')
     plt.title('FFT of Processed Signal')
