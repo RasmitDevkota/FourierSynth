@@ -4,6 +4,7 @@ from numpy.fft import fft, ifft, fftfreq
 
 import streamlit as st
 
+import io
 import soundfile as sf
 
 # Filters
@@ -165,7 +166,7 @@ def fourier(audio_obj=None, presets=None):
             active_presets.append(preset)
     st.write("active_presets:", active_presets)
 
-    audio_array, sample_rate = sf.read(audio_obj)
+    audio_array, sample_rate = sf.read(io.BytesIO(audio_obj))
     st.write(sample_rate)
 
     filtered_signal, freqs, filtered_fft, original_fft = filter_frequency_range(audio,
