@@ -157,15 +157,17 @@ def fourier(audio_obj=None, presets=None):
     st.pyplot(fig)
 
     all_presets = list(presets.keys())
-    st.write(presets)
+    st.write("presets:", presets)
 
     active_presets = []
     for preset, switch in presets.items():
         if switch and preset not in active_presets:
             active_presets.append(preset)
-    st.write(active_presets)
+    st.write("active_presets:", active_presets)
 
+    st.write("I am almost there")
     with wave.Wave_read(audio_obj) as wave_obj:
+        st.write("I am here")
         frame_rate = wave_file.getframerate()
         st.write(frame_rate)
 
