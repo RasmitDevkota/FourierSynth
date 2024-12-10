@@ -124,12 +124,20 @@ def plot(t, signal, filtered_signal, freqs, filtered_fft, original_fft):
     plt.tight_layout()
     plt.show()
 
-def fourier(audio_obj=None):
-    if audio_obj == None:
+def fourier(audio_obj=None, presets=None):
+    if audio_obj == None or presets == None:
         return
 
-    audio = np.array(audio_obj)
+    audio = np.load(audio_obj)
+    st.write(np.shape(audio))
+    audio_length = np.size(audio)
+    t = np.array(list(range(audio_length)))
 
+    fig, ax = plt.subplots()
+
+    plt.plot(t, audio)
+
+    st.pyplot(fig)
 
     return
 
