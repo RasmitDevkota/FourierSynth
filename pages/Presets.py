@@ -46,5 +46,5 @@ else:
 try:
     incon.button("Process", type="primary", on_click=fourier, kwargs={"audio_obj": audio_val, "presets": preset_dict, "outcon": outcon})
 except Exception as e:
-    outcon.error(str(e))
+    outcon.write(str(e))
 
