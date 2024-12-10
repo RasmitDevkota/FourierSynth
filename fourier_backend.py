@@ -166,13 +166,13 @@ def fourier(audio_obj=None, presets=None, outcon=None):
 
     # Get list of active presets
     all_presets = list(presets.keys())
-    outcon.write(str("presets:" + presets))
+    outcon.write("presets:" + str(presets))
 
     active_presets = []
     for preset, switch in presets.items():
         if switch and preset not in active_presets:
             active_presets.append(preset)
-    outcon.write(str("active_presets:" + active_presets))
+    outcon.write("active_presets:" + str(active_presets))
 
     # @TODO - figure out a way to "combine" multiple presets
 
