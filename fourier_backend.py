@@ -128,7 +128,7 @@ def fourier(audio_obj=None, presets=None):
     if audio_obj == None or presets == None:
         return
 
-    st.write(type(audio_obj.read()))
+    st.write(type(audio_obj.read(8)))
     st.write(audio_obj.read())
 
     audio = np.load(audio_obj.read())
