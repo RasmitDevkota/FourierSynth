@@ -177,9 +177,9 @@ def fourier(audio_obj=None, presets=None, outcon=None):
     audio_array, sample_rate = sf.read(io.BytesIO(audio_str))
     # outcon.write(sample_rate)
 
-    # # Run Fourier transform and equalizer
+    # Run Fourier transform and equalizer
     # filtered_audio, freqs, filtered_fft, original_fft = filter_frequency_range(audio,
-    #                                                                             active_presets[0],
+    #                                                                             preset_gain_plots[active_presets[0]],
     #                                                                             sample_rate, bg_noise_ref=None)
     #
     # output_fig, _ = plot(t, audio, filtered_audio, freqs, filtered_fft, original_fft)
