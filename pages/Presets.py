@@ -1,6 +1,6 @@
 import streamlit as st
 
-from src/fourier_backend import fourier
+from src.fourier_backend import fourier
 
 st.header("Presets for Our Fourier Synth")
 audio_val = st.audio_input("Record")
