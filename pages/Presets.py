@@ -1,5 +1,7 @@
 import streamlit as st
 
+from fourier_backend import fourier
+
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.fft import fft, ifft, fftfreq
