@@ -26,7 +26,7 @@ preset_gain_plots = {
         "85-155": 0
     },
     "efemale": {
-        "85-155": 0
+        "165-255": 0
     },
     "ebird": {
         "2000-3000": 0
@@ -140,17 +140,18 @@ def plot(t, signal, filtered_signal, freqs, filtered_fft, original_fft):
 
     return fig, ax
 
-def fourier(audio_obj=None, presets=None):
+def fourier(audio_obj=None, presets=None, outcon=None):
     # Validate inputs
-    if audio_obj == None or presets == None:
+    if audio_obj == None or presets == None or outcon == None:
+        outcon.write("Error occurred!")
         return
 
     # Process audio object input
     audio_str = audio_obj.read()
-    # st.write(audio_str)
+    # outcon.write(audio_str)
 
     audio = np.fromstring(audio_str, np.int16)
-    # st.write(np.shape(audio))
+    # outcon.write(np.shape(audio))
 
     # Plot original audio waveform
     audio_length = np.size(audio)
@@ -158,23 +159,23 @@ def fourier(audio_obj=None, presets=None):
 
     input_fig, _ = plt.subplots()
     plt.plot(t, audio)
-    st.pyplot(input_fig)
+    outcon.pyplot(input_fig)
 
     # Get list of active presets
     all_presets = list(presets.keys())
-    st.write("presets:", presets)
+    outcon.write("presets:", presets)
 
     active_presets = []
     for preset, switch in presets.items():
         if switch and preset not in active_presets:
             active_presets.append(preset)
-    st.write("active_presets:", active_presets)
+    outcon.write("active_presets:", active_presets)
 
     # @TODO - figure out a way to "combine" multiple presets
 
     # Get sample rate
     audio_array, sample_rate = sf.read(io.BytesIO(audio_str))
-    st.write(sample_rate)
+    outcon.write(sample_rate)
 
     # Run Fourier transform and equalizer
     filtered_audio, freqs, filtered_fft, original_fft = filter_frequency_range(audio,
@@ -183,7 +184,7 @@ def fourier(audio_obj=None, presets=None):
 
     output_fig, _ = plot(t, audio, filtered_audio, freqs, filtered_fft, original_fft)
 
-    st.pyplot(output_fig)
+    outcon.pyplot(output_fig)
 
     return
 
