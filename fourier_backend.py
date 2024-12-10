@@ -102,19 +102,19 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
 def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, original_fft, outcon):
     # Plot original signal
     outcon.write("Original signal")
-    outcon.line_chart(t, signal, x_label="Time[s]", y_label="Amplitude")
+    outcon.line_chart([t, signal], x_label="Time[s]", y_label="Amplitude")
 
     # Plot FFT magnitude before processing
     outcon.write("FFT of Original Signal")
-    outcon.line_chart(freqs, original_fft, x_label="Frequency [Hz]", y_label="Magnitude")
+    outcon.line_chart([freqs, original_fft], x_label="Frequency [Hz]", y_label="Magnitude")
 
     # Plot FFT magnitude after processing
     outcon.write("FFT of Processed Signal")
-    outcon.line_chart(freqs, processed_fft, x_label="Frequency [Hz]", y_label="Magnitude")
+    outcon.line_chart([freqs, processed_fft], x_label="Frequency [Hz]", y_label="Magnitude")
 
     # Plot processed signal
     outcon.write("Processed Signal", color="orange")
-    outcon.line_chart(t, processed_signal, x_label="Amplitude", y_label="Processed Signal in Time Domain")
+    outcon.line_chart([t, processed_signal], x_label="Amplitude", y_label="Processed Signal in Time Domain")
 
 def fourier(audio_obj=None, presets=None, outcon=None):
     # Validate inputs
