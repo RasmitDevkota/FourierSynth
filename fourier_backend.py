@@ -147,14 +147,14 @@ def fourier(audio_obj=None, presets=None):
     audio = np.fromstring(audio_str, np.int16)
     # st.write(np.shape(audio))
 
-    audio_length = np.size(audio)
-    t = np.array(list(range(audio_length)))
-
-    fig, ax = plt.subplots()
-
-    plt.plot(t, audio)
-
-    st.pyplot(fig)
+    # audio_length = np.size(audio)
+    # t = np.array(list(range(audio_length)))
+    #
+    # fig, ax = plt.subplots()
+    #
+    # plt.plot(t, audio)
+    #
+    # st.pyplot(fig)
 
     all_presets = list(presets.keys())
     st.write(presets)
