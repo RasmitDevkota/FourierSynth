@@ -17,7 +17,9 @@ import streamlit as st
 # - Noise calibration (record background audio)
 
 equal_gain_plot = np.array((int(20E3), 1))/20E3 # 0 Hz - 20 KHz
-# male_gain_plot = ...
+male_gain_plot = {
+    "85-155": 0
+}
 
 def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     """
@@ -129,13 +131,10 @@ def fourier(audio_obj=None, presets=None):
         return
 
     audio_str = audio_obj.read()
-
-    st.write(audio_str)
+    # st.write(audio_str)
 
     audio = np.fromstring(audio_str, np.int16)
-
-    # audio = np.load(audio_obj.read())
-    st.write(np.shape(audio))
+    # st.write(np.shape(audio))
 
     audio_length = np.size(audio)
     t = np.array(list(range(audio_length)))
@@ -145,6 +144,11 @@ def fourier(audio_obj=None, presets=None):
     plt.plot(t, audio)
 
     st.pyplot(fig)
+
+    all_presets = list(presets.keys())
+    st.write(presets)
+    active_presets = all_presets[list(presets.values())]
+    st.write(active_presets)
 
     return
 
