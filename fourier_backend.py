@@ -4,7 +4,7 @@ from numpy.fft import fft, ifft, fftfreq
 
 import streamlit as st
 
-import wave
+import soundfile as sf
 
 # Filters
 # - Average noise
@@ -165,15 +165,12 @@ def fourier(audio_obj=None, presets=None):
             active_presets.append(preset)
     st.write("active_presets:", active_presets)
 
-    st.write("I am almost there")
-    with wave.Wave_read(audio_obj) as wave_obj:
-        st.write("I am here")
-        frame_rate = wave_file.getframerate()
-        st.write(frame_rate)
+    audio_array, sample_rate = sf.read(audio_obj)
+    st.write(sample_rate)
 
     filtered_signal, freqs, filtered_fft, original_fft = filter_frequency_range(audio,
                                                                                 preset_gain_plots["ebird"],
-                                                                                frame_rate, bg_noise_ref=None)
+                                                                                sample_rate, bg_noise_ref=None)
 
     return
 
