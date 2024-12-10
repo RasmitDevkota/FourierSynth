@@ -15,22 +15,26 @@ if audio_val:
 
 # presets
 preset_dict = {}
+
 emale = incon.checkbox("Eliminate Male Voices")
 if emale:
     preset_dict["emale"] = True
 else:
     preset_dict["emale"] = False
+
 efemale = incon.checkbox("Eliminate Female Voices")
 if efemale:
     preset_dict["efemale"] = True
 else:
     preset_dict["efemale"] = False
+
 ebird = incon.checkbox("Eliminate Bird Noises")
 if ebird:
     preset_dict["ebird"] = True
 else:
     preset_dict["ebird"] = False
-# @TODO
+
+# @TODO - complete rest of presets
 
 # process audio
 # method 1: function wrapper
@@ -47,5 +51,6 @@ else:
 try:
     incon.button("Process", type="primary", on_click=fourier, kwargs={"audio_obj": audio_val, "presets": preset_dict, "outcon": outcon})
 except Exception as e:
-    outcon.write(str(e))
+    outcon.write("Error occurred, please refresh the page and try again!")
+    # outcon.write(str(e))
 
