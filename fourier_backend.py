@@ -99,7 +99,8 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
 
 def plot(t, signal, filtered_signal, freqs, filtered_fft, original_fft):
     # Plot the results
-    plt.figure(figsize=(12, 8))
+    # plt.figure(figsize=(12, 8))
+    fig, ax = plt.subplots(figsize=(12, 8))
 
     # Plot original signal
     plt.subplot(4, 1, 1)
@@ -136,27 +137,30 @@ def plot(t, signal, filtered_signal, freqs, filtered_fft, original_fft):
     plt.legend()
 
     plt.tight_layout()
-    plt.show()
+
+    return fig, ax
 
 def fourier(audio_obj=None, presets=None):
+    # Validate inputs
     if audio_obj == None or presets == None:
         return
 
+    # Process audio object input
     audio_str = audio_obj.read()
-    st.write(audio_str)
+    # st.write(audio_str)
 
     audio = np.fromstring(audio_str, np.int16)
     # st.write(np.shape(audio))
 
+    # Plot original audio waveform
     audio_length = np.size(audio)
     t = np.array(list(range(audio_length)))
 
-    fig, ax = plt.subplots()
-
+    input_fig, _ = plt.subplots()
     plt.plot(t, audio)
+    st.pyplot(input_fig)
 
-    st.pyplot(fig)
-
+    # Get list of active presets
     all_presets = list(presets.keys())
     st.write("presets:", presets)
 
@@ -166,12 +170,20 @@ def fourier(audio_obj=None, presets=None):
             active_presets.append(preset)
     st.write("active_presets:", active_presets)
 
+    # @TODO - figure out a way to "combine" multiple presets
+
+    # Get sample rate
     audio_array, sample_rate = sf.read(io.BytesIO(audio_str))
     st.write(sample_rate)
 
-    filtered_signal, freqs, filtered_fft, original_fft = filter_frequency_range(audio,
-                                                                                preset_gain_plots["ebird"],
+    # Run Fourier transform and equalizer
+    filtered_audio, freqs, filtered_fft, original_fft = filter_frequency_range(audio,
+                                                                                active_presets[0],
                                                                                 sample_rate, bg_noise_ref=None)
+
+    output_fig, _ = plot(t, audio, filtered_audio, freqs, filtered_fft, original_fft)
+
+    st.pyplot(output_fig)
 
     return
 
