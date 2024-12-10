@@ -33,10 +33,11 @@ else:
 # @TODO
 
 def fourier_wrapper(**kwargs):
-    try:
-        fourier(kwargs)
-    except Exception as e:
-        st.write("error occurred")
+    fourier(kwargs)
+    # try:
+    #     fourier(kwargs)
+    # except Exception as e:
+    #     st.write("error occurred")
 
 incon.button("Process", type="primary", on_click=fourier_wrapper, kwargs={"audio_obj": audio_val, "presets": preset_dict, "outcon": outcon})
 
