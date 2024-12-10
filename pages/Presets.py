@@ -17,6 +17,16 @@ if emale:
     preset_dict["emale"] = True
 else:
     preset_dict["emale"] = False
+efemale = st.checkbox("Eliminate Female Voices")
+if efemale:
+    preset_dict["efemale"] = True
+else:
+    preset_dict["efemale"] = False
+ebird = st.checkbox("Eliminate Bird Noises")
+if ebird:
+    preset_dict["ebird"] = True
+else:
+    preset_dict["ebird"] = False
 # @TODO
 
 # process audio
