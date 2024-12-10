@@ -32,10 +32,18 @@ else:
     preset_dict["ebird"] = False
 # @TODO
 
+def fourier_wrapper(**kwargs):
+    try:
+        fourier(kwargs)
+    except Exception as e:
+        st.write("error occurred")
+
+incon.button("Process", type="primary", on_click=fourier_wrapper, kwargs={"audio_obj": audio_val, "presets": preset_dict, "outcon": outcon})
+
 # process audio
-try:
-    incon.button("Process", type="primary", on_click=fourier, kwargs={"audio_obj": audio_val, "presets": preset_dict, "outcon": outcon})
-except Exception as e:
-    st.write("error occurred")
-    # outcon.error(str(e))
+# try:
+#     incon.button("Process", type="primary", on_click=fourier, kwargs={"audio_obj": audio_val, "presets": preset_dict, "outcon": outcon})
+# except Exception as e:
+#     st.write("error occurred")
+#     # outcon.error(str(e))
 
