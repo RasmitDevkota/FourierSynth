@@ -136,7 +136,7 @@ def plot(t, signal, sample_rate, filtered_signal, freqs, filtered_fft, original_
     plt.title('Filtered Signal in Time Domain')
     plt.legend()
 
-    plt.tight_layout()
+    # plt.tight_layout()
 
     return fig, ax
 
