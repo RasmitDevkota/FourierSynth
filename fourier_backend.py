@@ -98,7 +98,7 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     processed_fft = np.abs(processed_fft)
 
     # Perform inverse FFT to get back the processed time-domain signal
-    processed_signal = irfft(processed_fft).astype(np.int16)
+    processed_signal = irfft(processed_fft).astype(np.int32)
     # processed_signal = np.abs(ifft(fft(signal)))
 
     # print(processed_signal)
@@ -162,7 +162,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
     audio_str = audio_obj.read()
     # outcon.write(audio_str)
 
-    audio = np.fromstring(audio_str, np.int16)
+    audio = np.fromstring(audio_str, np.int32)
     # outcon.write(np.shape(audio))
 
     # Plot original audio waveform
