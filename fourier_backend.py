@@ -88,9 +88,9 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
                 # break
 
     # Delete noisy artifacts of the discrete FFT
-    #for f, component in enumerate(processed_fft):
-    #    if abs(component) <= 1E-11:
-    #        processed_fft[f] = 1E-13
+    for f, component in enumerate(processed_fft):
+        if abs(component) <= 1E-11:
+            processed_fft[f] = 1E-13
 
     # processed_fft[1] = 1E8
     # print(processed_fft[115:135])
@@ -99,7 +99,7 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
 
     # Perform inverse FFT to get back the processed time-domain signal
     processed_signal = irfft(processed_fft).astype(np.int16)
-    # processed_signal = np.abs(ifft(fft(signal)))
+    # processed_signal = np.abs(ifft(signal))
 
     # print(processed_signal)
 
