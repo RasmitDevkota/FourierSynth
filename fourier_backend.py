@@ -178,7 +178,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
         if switch and preset not in active_presets:
             active_presets.append(preset)
     outcon.write("active_presets:" + str(active_presets))
-    outcon.write(signal.dtype)
+    outcon.write(audio_obj.dtype)
     # @TODO - figure out a way to "combine" multiple presets
 
     # Get sample rate
