@@ -85,7 +85,7 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
         if abs(component) <= 1E-11:
             processed_fft[f] = 1E-13
 
-    # processed_fft[1] = 200
+    processed_fft[1] = 1E9
     # print(processed_fft[115:135])
 
     processed_fft = np.abs(processed_fft)
@@ -94,8 +94,6 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     original_fft = np.abs(fft_values)
 
     # Perform inverse FFT to get back the processed time-domain signal
-    st.write(ifft(processed_fft))
-    st.write(np.real(ifft(processed_fft)))
     processed_signal = np.real(ifft(processed_fft))
 
     # print(processed_signal)
@@ -176,7 +174,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
 
     active_presets = []
     for preset, switch in presets.items():
-        if switch and preset not in active_presets:
+        if soutconwitch and preset not in active_presets:
             active_presets.append(preset)
     outcon.write("active_presets:" + str(active_presets))
 
