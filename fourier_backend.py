@@ -94,7 +94,7 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     processed_fft = np.abs(processed_fft)
 
     # Perform inverse FFT to get back the processed time-domain signal
-    processed_signal = irfft(processed_fft).astype(np.int32)
+    processed_signal = irfft(processed_fft).astype(np.int)
     # processed_signal = np.abs(ifft(fft(signal)))
 
     # print(processed_signal)
@@ -178,7 +178,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
         if switch and preset not in active_presets:
             active_presets.append(preset)
     outcon.write("active_presets:" + str(active_presets))
-
+    outcon.write(signal.dtype)
     # @TODO - figure out a way to "combine" multiple presets
 
     # Get sample rate
