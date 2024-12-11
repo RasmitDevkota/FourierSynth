@@ -46,8 +46,8 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     Returns:
     - processed_signal: Time-domain signal with only the desired frequency range.
     - freqs: Frequencies present in the transformed signal.
-    - processed_fft: Fourier components after gains are applied
-    - original_fft: Magnitude of the FFT before filtering.
+    - processed_fft: Fourier components after gains are applied.
+    - original_fft: Magnitude of the FFT before processing.
     """
 
     # Perform FFT on the signal
@@ -55,7 +55,10 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     fft_values = fft(signal)
     freqs = fftfreq(n, d=1/sample_rate)
 
-    # Copy the FFT values to filter frequencies
+    # Calculate magnitude of FFT for visualization (before process)
+    original_fft = np.abs(fft_values)
+
+    # Copy the FFT values to process frequencies
     processed_fft = np.copy(fft_values)
     # print(processed_fft)
 
@@ -70,7 +73,7 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
             max_freq = int(freq_range.split("-")[1])
             if freq >= min_freq and freq <= max_freq:
                 # processed_fft[f] *= gain
-                processed_fft[f] *= 1E-13
+                processed_fft[f] = 1
                 break
             else:
                 pass
@@ -90,12 +93,9 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
 
     processed_fft = np.abs(processed_fft)
 
-    # Calculate magnitude of FFT for visualization (before filtering)
-    original_fft = np.abs(fft_values)
-
     # Perform inverse FFT to get back the processed time-domain signal
-    # processed_signal = np.abs(ifft(processed_fft))
-    processed_signal = np.abs(ifft(fft(signal)))
+    processed_signal = np.real(ifft(processed_fft))
+    # processed_signal = np.abs(ifft(fft(signal)))
 
     # print(processed_signal)
 
