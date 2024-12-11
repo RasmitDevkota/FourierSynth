@@ -55,6 +55,10 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     fft_values = rfft(signal)
     freqs = rfftfreq(n, d=1/sample_rate)
 
+    # Converting any stereo input to mono
+    if len(signal.shape) > 1:
+        signal = signal[:,0]
+
     # Calculate magnitude of FFT for visualization (before process)
     original_fft = np.abs(fft_values)
 
@@ -178,7 +182,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
         if switch and preset not in active_presets:
             active_presets.append(preset)
     outcon.write("active_presets:" + str(active_presets))
-    outcon.write(audio_obj.dtype)
+    
     # @TODO - figure out a way to "combine" multiple presets
 
     # Get sample rate
