@@ -94,7 +94,7 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     original_fft = np.abs(fft_values)
 
     # Perform inverse FFT to get back the processed time-domain signal
-    processed_signal = np.real(ifft(processed_fft))
+    processed_signal = np.abs(ifft(processed_fft))
 
     # print(processed_signal)
 
