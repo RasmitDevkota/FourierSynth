@@ -107,7 +107,7 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
 
 def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, original_fft, outcon):
     # Plot the results
-    fig, ax = plt.subplots(figsize=(12, 24))
+    figure = plt.figure(figsize=(12, 24))
 
     # Plot original signal
     plt.subplot(4, 1, 1)
@@ -147,7 +147,7 @@ def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, origina
 
     # plt.tight_layout()
 
-    return fig, ax
+    return fig, _
 
 def fourier(audio_obj=None, presets=None, outcon=None):
     # Validate inputs
