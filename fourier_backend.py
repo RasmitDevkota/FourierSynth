@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy.fft import fft, ifft, fftfreq, rfft, rifft, rfftfreq
+from numpy.fft import fft, ifft, fftfreq, rfft, irfft, rfftfreq
 
 import streamlit as st
 
@@ -94,7 +94,7 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     processed_fft = np.abs(processed_fft)
 
     # Perform inverse FFT to get back the processed time-domain signal
-    processed_signal = rifft(processed_fft)
+    processed_signal = irfft(processed_fft)
     # processed_signal = np.abs(ifft(fft(signal)))
 
     # print(processed_signal)
