@@ -196,7 +196,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
 
     # Add processed audio playback
     outcon.write("Listen to processed audio")
-    outcon.audio(processed_audio, sample_rate=sample_rate)
+    outcon.audio(processed_audio, format = "audio/mpeg", sample_rate=sample_rate)
 
     return
 
