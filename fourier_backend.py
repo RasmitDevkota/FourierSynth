@@ -11,7 +11,7 @@ import soundfile as sf
 # - Average noise
 # - Specific frequencies
 # - Male voices (85-155 Hz)
-# - Female voices (165-255 Hz)
+# - Female voices (185-255 Hz)
 # - Fans
 # - Wind??? (20-250 Hz)
 # - Music (A4 @ 440 Hz)
@@ -26,7 +26,7 @@ preset_gain_plots = {
         "85-155": 0
     },
     "efemale": {
-        "165-280": 0
+        "185-255": 0
     },
     "ebird": {
         "2000-3000": 0
