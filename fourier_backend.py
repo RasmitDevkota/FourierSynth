@@ -69,7 +69,8 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
             min_freq = int(freq_range.split("-")[0])
             max_freq = int(freq_range.split("-")[1])
             if freq >= min_freq and freq <= max_freq:
-                processed_fft[f] *= gain
+                # processed_fft[f] *= gain
+                processed_fft[f] *= 1E-13
                 break
             else:
                 pass
@@ -93,8 +94,8 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     original_fft = np.abs(fft_values)
 
     # Perform inverse FFT to get back the processed time-domain signal
-    print(ifft(processed_fft))
-    print(np.real(ifft(processed_fft)))
+    st.write(ifft(processed_fft))
+    st.write(np.real(ifft(processed_fft)))
     processed_signal = np.real(ifft(processed_fft))
 
     # print(processed_signal)
