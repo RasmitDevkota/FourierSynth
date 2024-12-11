@@ -98,8 +98,8 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     processed_fft = np.abs(processed_fft)
 
     # Perform inverse FFT to get back the processed time-domain signal
-    processed_signal = irfft(processed_fft).astype(np.int16)
-    # processed_signal = np.abs(ifft(signal))
+    # processed_signal = irfft(processed_fft).astype(np.int16)
+    processed_signal = np.abs(ifft(signal))
 
     # print(processed_signal)
 
@@ -147,7 +147,7 @@ def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, origina
 
     # plt.tight_layout()
 
-    return figure, None
+    return figure
 
 def fourier(audio_obj=None, presets=None, outcon=None):
     # Validate inputs
@@ -182,7 +182,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
         if switch and preset not in active_presets:
             active_presets.append(preset)
     outcon.write("active_presets:" + str(active_presets))
-    
+
     # @TODO - figure out a way to "combine" multiple presets
 
     # Get sample rate
@@ -196,7 +196,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
                                                                                 preset_gain_plots[active_presets[0]],
                                                                                 sample_rate, bg_noise_ref=None)
 
-    output_fig, _ = plot(t, audio, sample_rate, processed_audio, freqs, processed_fft, original_fft, outcon)
+    output_fig = plot(t, audio, sample_rate, processed_audio, freqs, processed_fft, original_fft, outcon)
 
     outcon.pyplot(output_fig)
 
