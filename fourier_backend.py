@@ -100,27 +100,9 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     return processed_signal, freqs, processed_fft, original_fft
 
 def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, original_fft, outcon):
-    # method 1: native streamlit plotting functions
-    # # Plot original signal
-    # outcon.write("Original signal")
-    # outcon.line_chart([t, signal], x_label="Time[s]", y_label="Amplitude")
-    #
-    # # Plot FFT magnitude before processing
-    # outcon.write("FFT of Original Signal")
-    # outcon.line_chart([freqs, original_fft], x_label="Frequency [Hz]", y_label="Magnitude")
-    #
-    # # Plot FFT magnitude after processing
-    # outcon.write("FFT of Processed Signal")
-    # outcon.line_chart([freqs, processed_fft], x_label="Frequency [Hz]", y_label="Magnitude")
-    #
-    # # Plot processed signal
-    # outcon.write("Processed Signal", color="orange")
-    # outcon.line_chart([t, processed_signal], x_label="Amplitude", y_label="Processed Signal in Time Domain")
-
     # Plot the results
     fig, ax = plt.subplots(figsize=(12, 24))
 
-    # method 2: streamlit interface to matplotlib
     # Plot original signal
     plt.subplot(4, 1, 1)
     plt.plot(t, signal, label='Original Signal')
@@ -187,13 +169,13 @@ def fourier(audio_obj=None, presets=None, outcon=None):
 
     # Get list of active presets
     all_presets = list(presets.keys())
-    # outcon.write("presets:" + str(presets))
+    outcon.write("presets:" + str(presets))
 
     active_presets = []
     for preset, switch in presets.items():
         if switch and preset not in active_presets:
             active_presets.append(preset)
-    # outcon.write("active_presets:" + str(active_presets))
+    outcon.write("active_presets:" + str(active_presets))
 
     # @TODO - figure out a way to "combine" multiple presets
 
