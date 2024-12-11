@@ -147,7 +147,7 @@ def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, origina
 
     # plt.tight_layout()
 
-    return fig, _
+    return figure, None
 
 def fourier(audio_obj=None, presets=None, outcon=None):
     # Validate inputs
