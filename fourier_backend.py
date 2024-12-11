@@ -85,7 +85,7 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
         if abs(component) <= 1E-11:
             processed_fft[f] = 1E-13
 
-    processed_fft[1] = 1E9
+    # processed_fft[1] = 1E8
     # print(processed_fft[115:135])
 
     processed_fft = np.abs(processed_fft)
