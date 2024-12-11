@@ -174,7 +174,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
 
     active_presets = []
     for preset, switch in presets.items():
-        if soutconwitch and preset not in active_presets:
+        if switch and preset not in active_presets:
             active_presets.append(preset)
     outcon.write("active_presets:" + str(active_presets))
 
