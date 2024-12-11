@@ -189,6 +189,8 @@ def fourier(audio_obj=None, presets=None, outcon=None):
     audio_array, sample_rate = sf.read(io.BytesIO(audio_str))
     # outcon.write(sample_rate)
 
+    audio = np.sin(2 * np.pi * 60 + t)
+
     # Run Fourier transform and equalizer
     processed_audio, freqs, processed_fft, original_fft = filter_frequency_range(audio,
                                                                                 preset_gain_plots[active_presets[0]],
