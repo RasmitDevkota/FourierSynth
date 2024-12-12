@@ -29,17 +29,17 @@ preset_gain_plots = {
         "160-255": 0
     },
     "ebird": {
-        "2000-5000": 0
+        "2000-20000": 0
     }
 }
 
 noise_profile = None
 
 def save_noise_profile(signal_fft=None):
-    if noise_profile == None:
+    if signal_fft == None:
         return
-
-    return
+    else:
+        noise_profile = signal_fft
 
 def process_audio(signal, gain_plot, sample_rate, noise_profile=None):
     """
