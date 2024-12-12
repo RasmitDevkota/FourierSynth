@@ -23,8 +23,7 @@ equal_gain_plot = np.array((int(20E3), 1))/20E3 # 0 Hz - 20 KHz
 
 preset_gain_plots = {
     "emale": {
-        # "85-155": 0
-        "0-5000": 0
+        "85-155": 0
     },
     "efemale": {
         "160-255": 0
@@ -77,6 +76,12 @@ def process_audio(signal, gain_plot, sample_rate, bg_noise_ref=None):
             max_freq = int(freq_range.split("-")[1])
             if freq >= min_freq and freq <= max_freq:
                 processed_fft[f] *= gain
+                break
+            elif freq > 0:
+                center_freq = (min_freq + max_freq)/2
+                quotient = freq/center_freq
+                if abs(int(quotient) - quotient)/quotient <= 0.25:
+                    processed_fft[f] *= gain
                 break
 
     # Delete noisy artifacts of the discrete FFT
