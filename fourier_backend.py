@@ -29,7 +29,7 @@ preset_gain_plots = {
         "160-255": 0
     },
     "ebird": {
-        "1000-20000": 0
+        "1100-20000": 0
     }
 }
 
@@ -58,10 +58,10 @@ def process_audio(signal, gain_plot, sample_rate, noise_profile=None):
     - original_fft: Magnitude of the FFT before processing.
     """
 
-    # Perform FFT on the signal
-    # signal_padded = np.zeros()
-    # signal_padded[:signal.size] = a
+    # Pad signal with zeros
+    signal_padded = np.pad(signal, [0, signal.size])
 
+    # Perform FFT on the signal
     n = len(signal)
     print(n)
     fft_values = rfft(signal)
