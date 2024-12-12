@@ -29,9 +29,17 @@ preset_gain_plots = {
         "160-255": 0
     },
     "ebird": {
-        "2000-3000": 0
+        "2000-4000": 0
     }
 }
+
+noise_profile = None
+
+def save_noise_profile(noise_profile=None):
+    if noise_profile == None:
+        return
+
+    return
 
 def process_audio(signal, gain_plot, sample_rate, noise_profile=None):
     """
@@ -210,6 +218,9 @@ def fourier(audio_obj=None, presets=None, subtract_noise=None, outcon=None):
     # Add processed audio playback
     outcon.write("Listen to processed audio")
     outcon.audio(processed_audio, sample_rate=sample_rate)
+
+    # Provide option to save current FFT as noise profile
+    outcon.button("Save as noise profile", type="primary", on_click=save_noise_profile, kwargs={"noise_profile": original_fft})
 
     return
 
