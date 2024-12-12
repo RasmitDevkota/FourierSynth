@@ -29,13 +29,13 @@ preset_gain_plots = {
         "160-255": 0
     },
     "ebird": {
-        "2000-4000": 0
+        "2000-5000": 0
     }
 }
 
 noise_profile = None
 
-def save_noise_profile(noise_profile=None):
+def save_noise_profile(signal_fft=None):
     if noise_profile == None:
         return
 
