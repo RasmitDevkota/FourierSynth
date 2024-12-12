@@ -103,7 +103,7 @@ def process_audio(signal, gain_plot, sample_rate, noise_profile=None):
 
                 if error <= rejected_linewidth:
                     gain_adjusted = gain + np.exp(-1 * nearest_harmonic) * (1-error)**2
-                    # attenuation_adjusted = attenuation / nearest_harmonic * (1-error)**2
+                    # gain_adjusted = gain + np.pow(float(nearest_harmonic), -2) * (1-error)**2
                     processed_fft[f] *= gain_adjusted
                 break
 
@@ -133,7 +133,7 @@ def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, origina
     plt.subplot(4, 1, 2)
     plt.plot(freqs, original_fft, label='FFT of Original Signal')
     # plt.xlim(0, sample_rate / 2)
-    plt.xlim(0, 5000)
+    plt.xlim(0, 2000)
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Magnitude')
     plt.title('FFT of Original Signal')
@@ -143,7 +143,7 @@ def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, origina
     plt.subplot(4, 1, 3)
     plt.plot(freqs, np.abs(processed_fft), label='FFT of Processed Signal')
     # plt.xlim(0, sample_rate / 2)
-    plt.xlim(0, 5000)
+    plt.xlim(0, 2000)
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Magnitude')
     plt.title('FFT of Processed Signal')
