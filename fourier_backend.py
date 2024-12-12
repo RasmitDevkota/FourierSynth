@@ -170,18 +170,18 @@ def fourier(audio_obj=None, presets=None, outcon=None):
     # Plot original audio waveform
     audio = audio[:len(audio_array)]
     audio_length = np.size(audio)
-    # t = np.array(list(range(len(audio_array))))/sample_rate
+    t = np.array(list(range(len(audio_array))))/sample_rate
 
     # pseudorandom signal
-    np.random.seed(0)
-    t = np.array(list(range(sample_rate)))/sample_rate
-    audio = np.zeros_like(t)
-    frequencies = np.random.rand(50) * 1000
-    outcon.write(frequencies)
-    for freq in frequencies:
-        audio += np.sin(2 * np.pi * freq * t)
-    print(np.min(audio), np.max(audio))
-    audio *= np.random.rand(len(t))
+    # np.random.seed(0)
+    # t = np.array(list(range(sample_rate)))/sample_rate
+    # audio = np.zeros_like(t)
+    # frequencies = np.random.rand(50) * 1000
+    # outcon.write(frequencies)
+    # for freq in frequencies:
+    #     audio += np.sin(2 * np.pi * freq * t)
+    # print(np.min(audio), np.max(audio))
+    # audio *= np.random.rand(len(t))
     # end pseudorandom signal
 
     print("time goes between:", min(t), max(t), len(t))
