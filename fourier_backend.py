@@ -33,7 +33,7 @@ preset_gain_plots = {
     }
 }
 
-def process_audio(signal, gain_plot, sample_rate, bg_noise_ref=None):
+def process_audio(signal, gain_plot, sample_rate, noise_profile=None):
     """
     Filters the input signal to retain only the frequencies within the specified range.
 
@@ -41,7 +41,7 @@ def process_audio(signal, gain_plot, sample_rate, bg_noise_ref=None):
     - signal: numpy array of the time-domain signal.
     - gain_plot: numpy array of gains for each frequency.
     - sample_rate: Sampling rate of the signal in Hz.
-    - bg_noise_ref: (optional) numpy array of Fourier components from a background noise reference scan.
+    - noise_profile: (optional) numpy array of Fourier components from a background noise reference scan.
 
     Returns:
     - processed_signal: Time-domain signal with only the desired frequency range.
@@ -51,7 +51,11 @@ def process_audio(signal, gain_plot, sample_rate, bg_noise_ref=None):
     """
 
     # Perform FFT on the signal
+    # signal_padded = np.zeros()
+    # signal_padded[:signal.size] = a
+
     n = len(signal)
+    print(n)
     fft_values = rfft(signal)
     freqs = rfftfreq(n, d=1/sample_rate)
 
@@ -63,8 +67,8 @@ def process_audio(signal, gain_plot, sample_rate, bg_noise_ref=None):
     # print(processed_fft)
 
     # Subtract the Fourier components from the background noise reference
-    if bg_noise_ref is not None:
-        processed_fft -= bg_noise_ref
+    if noise_profile is not None:
+        processed_fft -= noise_profile
 
     # Multiply the FFT values by the gain plot
     for f, freq in enumerate(freqs):
@@ -88,7 +92,8 @@ def process_audio(signal, gain_plot, sample_rate, bg_noise_ref=None):
                 rejected_linewidth = 0.125
 
                 if error <= rejected_linewidth:
-                    processed_fft[f] *= gain/(nearest_harmonic + error)
+                    # processed_fft[f] *= gain/(nearest_harmonic**2 * (1+error)**2)
+                    processed_fft[f] *= gain/(np.exp(nearest_harmonic) * (1+error)**2)
                 break
 
     # Delete noisy artifacts of the discrete FFT
@@ -145,7 +150,7 @@ def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, origina
 
     return figure
 
-def fourier(audio_obj=None, presets=None, outcon=None):
+def fourier(audio_obj=None, presets=None, subtract_noise=None, outcon=None):
     # Validate inputs
     if audio_obj == None or presets == None or outcon == None:
         # st.write("Error occurred!")
@@ -197,7 +202,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
     # @TODO - figure out a way to "combine" multiple presets
 
     # Run Fourier transform and processor
-    processed_audio, freqs, processed_fft, original_fft = process_audio(audio, preset_gain_plots[active_presets[0]], sample_rate, bg_noise_ref=None)
+    processed_audio, freqs, processed_fft, original_fft = process_audio(audio, preset_gain_plots[active_presets[0]], sample_rate, noise_profile=None)
 
     output_fig = plot(t, audio, sample_rate, processed_audio, freqs, processed_fft, original_fft, outcon)
     outcon.pyplot(output_fig)
