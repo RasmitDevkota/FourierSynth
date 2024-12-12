@@ -50,9 +50,9 @@ else:
 # incon.button("Process", type="primary", on_click=fourier_wrapper, kwargs={"audio_obj": audio_val, "presets": preset_dict, "outcon": outcon})
 
 # method 2: flat
+subtract_noise = incon.checkbox("Subtract Noise Profile")
 try:
-    incon.button("Process", type="primary", on_click=fourier, kwargs={"audio_obj": audio_val, "presets": preset_dict, "outcon": outcon})
+    incon.button("Process", type="primary", on_click=fourier, kwargs={"audio_obj": audio_val, "presets": preset_dict,"subtract_noise": subtract_noise, "outcon": outcon})
 except Exception as e:
     outcon.write("Error occurred, please refresh the page and try again!")
     # outcon.write(str(e))
-
