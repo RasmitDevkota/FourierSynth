@@ -78,10 +78,17 @@ def process_audio(signal, gain_plot, sample_rate, bg_noise_ref=None):
                 processed_fft[f] *= gain
                 break
             elif freq > 0:
+                # pass
                 center_freq = (min_freq + max_freq)/2
                 quotient = freq/center_freq
-                if abs(int(quotient) - quotient)/quotient <= 0.25:
-                    processed_fft[f] *= gain
+                nearest_harmonic = int(round(quotient))
+
+                error = abs(int(quotient) - quotient)/quotient
+
+                rejected_linewidth = 0.125
+
+                if error <= rejected_linewidth:
+                    processed_fft[f] *= gain/(nearest_harmonic + error)
                 break
 
     # Delete noisy artifacts of the discrete FFT
@@ -110,7 +117,7 @@ def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, origina
     plt.subplot(4, 1, 2)
     plt.plot(freqs, original_fft, label='FFT of Original Signal')
     # plt.xlim(0, sample_rate / 2)
-    plt.xlim(0, 1000)
+    plt.xlim(0, 5000)
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Magnitude')
     plt.title('FFT of Original Signal')
@@ -120,7 +127,7 @@ def plot(t, signal, sample_rate, processed_signal, freqs, processed_fft, origina
     plt.subplot(4, 1, 3)
     plt.plot(freqs, np.abs(processed_fft), label='FFT of Processed Signal')
     # plt.xlim(0, sample_rate / 2)
-    plt.xlim(0, 1000)
+    plt.xlim(0, 5000)
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Magnitude')
     plt.title('FFT of Processed Signal')
@@ -149,6 +156,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
 
     # Process audio object input
     audio_str = audio_obj.read()
+    # outcon.write(audio_str)
 
     audio = np.fromstring(audio_str, np.int16)
 
@@ -162,7 +170,20 @@ def fourier(audio_obj=None, presets=None, outcon=None):
     # Plot original audio waveform
     audio = audio[:len(audio_array)]
     audio_length = np.size(audio)
-    t = np.array(list(range(len(audio_array))))/sample_rate
+    # t = np.array(list(range(len(audio_array))))/sample_rate
+
+    # pseudorandom signal
+    np.random.seed(0)
+    t = np.array(list(range(sample_rate)))/sample_rate
+    audio = np.zeros_like(t)
+    frequencies = np.random.rand(50) * 1000
+    outcon.write(frequencies)
+    for freq in frequencies:
+        audio += np.sin(2 * np.pi * freq * t)
+    print(np.min(audio), np.max(audio))
+    audio *= np.random.rand(len(t))
+    # end pseudorandom signal
+
     print("time goes between:", min(t), max(t), len(t))
 
     # Get list of active presets
