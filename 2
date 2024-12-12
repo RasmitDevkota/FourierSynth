@@ -55,7 +55,9 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     fft_values = rfft(signal)
     freqs = rfftfreq(n, d=1/sample_rate)
 
-    print("n:", n)
+    # Convert any stereo input to mono
+    if len(signal.shape) > 1:
+        signal = signal[:,0]
 
     # Calculate magnitude of FFT for visualization (before process)
     original_fft = np.abs(fft_values)
@@ -70,9 +72,9 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
 
     # Multiply the FFT values by the gain plot
     for f, freq in enumerate(freqs):
-        if freq <= 1:
+        if freq <= 10:
             processed_fft[f] = 0
-        if freq >= 10 and freq <= 11:
+        if freq >= 80 and freq <= 82:
             processed_fft[f] = 1E4
 
         for freq_range, gain in gain_plot.items():
@@ -91,9 +93,7 @@ def filter_frequency_range(signal, gain_plot, sample_rate, bg_noise_ref=None):
     processed_fft = np.abs(processed_fft)
 
     # Perform inverse FFT to get back the processed time-domain signal
-    print("ifft:", np.shape(ifft(processed_fft)))
-    processed_signal = np.real(irfft(processed_fft))
-    print("processed signal:", np.shape(processed_signal))
+    processed_signal = np.abs(np.real(ifft(processed_fft)))
     # processed_signal = np.abs(ifft(signal))
 
     # Manual IFFT:
@@ -164,23 +164,16 @@ def fourier(audio_obj=None, presets=None, outcon=None):
     # outcon.write(audio_str)
 
     audio = np.fromstring(audio_str, np.int16)
-    print("numpy thinks I'm:", np.shape(audio))
-
-    # Convert any stereo input to mono
-    if len(audio.shape) > 1:
-        audio = audio[:,0]
+    # outcon.write(np.shape(audio))
 
     # Get sample rate
     audio_array, sample_rate = sf.read(io.BytesIO(audio_str))
-    print("soundfile thinks I'm:", len(audio_array), sample_rate, len(audio_array)/sample_rate)
     # outcon.write(sample_rate)
 
     # Plot original audio waveform
-    audio = audio[:len(audio_array)]
     audio_length = np.size(audio)
-    t = np.array(list(range(len(audio_array))))/sample_rate
-    print("time goes between:", min(t), max(t), len(t))
-    # t = np.linspace(0, audio_length/sample_rate, audio_length, endpoint=False)
+    # t = np.array(list(range(audio_length)))/audio_length
+    t = np.linspace(0, 1, audio_length, endpoint=False)
 
     input_fig, _ = plt.subplots()
     plt.plot(t, audio)
@@ -198,8 +191,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
 
     # @TODO - figure out a way to "combine" multiple presets
 
-    # audio = np.sin(2 * np.pi * 30 * t) + np.sin(2 * np.pi * 60 * t) + np.sin(2 * np.pi * 120 * t) + np.sin(2 * np.pi * 240 * t)
-    audio = np.sin(2 * np.pi * 5 * t)
+    audio = np.sin(2 * np.pi * 30 + t) + np.sin(2 * np.pi * 60 + t) + np.sin(2 * np.pi * 120 + t) + np.sin(2 * np.pi * 240 + t)
 
     # Run Fourier transform and equalizer
     processed_audio, freqs, processed_fft, original_fft = filter_frequency_range(audio,
@@ -207,6 +199,7 @@ def fourier(audio_obj=None, presets=None, outcon=None):
                                                                                 sample_rate, bg_noise_ref=None)
 
     output_fig = plot(t, audio, sample_rate, processed_audio, freqs, processed_fft, original_fft, outcon)
+
     outcon.pyplot(output_fig)
 
     # Add processed audio playback
