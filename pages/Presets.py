@@ -16,6 +16,12 @@ if audio_val:
 # presets
 preset_dict = {}
 
+none = incon.checkbox("None")
+if none:
+    preset_dict["none"] = True
+else:
+    preset_dict["none"] = False
+
 emale = incon.checkbox("Eliminate Male Voices")
 if emale:
     preset_dict["emale"] = True

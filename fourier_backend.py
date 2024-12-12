@@ -22,22 +22,27 @@ import soundfile as sf
 equal_gain_plot = np.array((int(20E3), 1))/20E3 # 0 Hz - 20 KHz
 
 preset_gain_plots = {
+    "none": {
+
+    },
     "emale": {
-        "85-155": 0
+        "85-155": 0.1
     },
     "efemale": {
-        "160-255": 0
+        "160-255": 0.1
     },
     "ebird": {
-        "1800-20000": 0
+        "1800-20000": 0.1
     }
 }
 
-noise_profile = None
+saved_noise_profile = None
 
 def save_noise_profile(signal_fft=None):
-    if signal_fft != None:
-        noise_profile = signal_fft
+    if signal_fft is None:
+        return
+    else:
+        saved_noise_profile = signal_fft
 
 def process_audio(signal, gain_plot, sample_rate, noise_profile=None):
     """
@@ -47,7 +52,6 @@ def process_audio(signal, gain_plot, sample_rate, noise_profile=None):
     - signal: numpy array of the time-domain signal.
     - gain_plot: numpy array of gains for each frequency.
     - sample_rate: Sampling rate of the signal in Hz.
-    - noise_profile: (optional) numpy array of Fourier components from a background noise reference scan.
 
     Returns:
     - processed_signal: Time-domain signal with only the desired frequency range.
@@ -61,7 +65,6 @@ def process_audio(signal, gain_plot, sample_rate, noise_profile=None):
 
     # Perform FFT on the signal
     n = len(signal)
-    print(n)
     fft_values = rfft(signal)
     freqs = rfftfreq(n, d=1/sample_rate)
 
@@ -74,6 +77,7 @@ def process_audio(signal, gain_plot, sample_rate, noise_profile=None):
 
     # Subtract the Fourier components from the background noise reference
     if noise_profile is not None:
+        print("Subtracting noise profile...")
         processed_fft -= noise_profile
 
     # Multiply the FFT values by the gain plot
@@ -98,8 +102,9 @@ def process_audio(signal, gain_plot, sample_rate, noise_profile=None):
                 rejected_linewidth = 0.125
 
                 if error <= rejected_linewidth:
-                    # processed_fft[f] *= gain/(nearest_harmonic**2 * (1+error)**2)
-                    processed_fft[f] *= gain/(np.exp(nearest_harmonic) * (1+error)**2)
+                    gain_adjusted = gain + np.exp(-1 * nearest_harmonic) * (1-error)**2
+                    # attenuation_adjusted = attenuation / nearest_harmonic * (1-error)**2
+                    processed_fft[f] *= gain_adjusted
                 break
 
     # Delete noisy artifacts of the discrete FFT
@@ -207,8 +212,16 @@ def fourier(audio_obj=None, presets=None, subtract_noise=None, outcon=None):
 
     # @TODO - figure out a way to "combine" multiple presets
 
+    if subtract_noise:
+        noise_profile_choice = saved_noise_profile
+    else:
+        noise_profile_choice = None
+
     # Run Fourier transform and processor
-    processed_audio, freqs, processed_fft, original_fft = process_audio(audio, preset_gain_plots[active_presets[0]], sample_rate, noise_profile=None)
+    processed_audio, freqs, processed_fft, original_fft = process_audio(audio,
+                                                                        preset_gain_plots[active_presets[0]],
+                                                                        sample_rate,
+                                                                        noise_profile=noise_profile_choice)
 
     output_fig = plot(t, audio, sample_rate, processed_audio, freqs, processed_fft, original_fft, outcon)
     outcon.pyplot(output_fig)
@@ -218,7 +231,7 @@ def fourier(audio_obj=None, presets=None, subtract_noise=None, outcon=None):
     outcon.audio(processed_audio, sample_rate=sample_rate)
 
     # Provide option to save current FFT as noise profile
-    outcon.button("Save as noise profile", type="primary", on_click=save_noise_profile, kwargs={"noise_profile": original_fft})
+    outcon.button("Save as noise profile", type="primary", on_click=save_noise_profile, kwargs={"signal_fft": original_fft})
 
     return
 
